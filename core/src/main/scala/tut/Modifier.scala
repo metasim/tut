@@ -12,10 +12,12 @@ final case object Plain                         extends Modifier
 final case object Invisible                     extends Modifier
 final case object Evaluated                     extends Modifier
 final case class  Decorate(decoration: String)  extends Modifier
+final case class  Import(srcPath: String)       extends Modifier
 final case object Reset                         extends Modifier
 
 object Modifier {
   private val DecorateP: Regex = "decorate\\((.*)\\)".r
+  private val ImportP: Regex = "import\\((.*)\\)".r
 
   def fromString(s: String): Option[Modifier] = Some(s) collect {
     case "nofail"               => NoFail
@@ -26,6 +28,7 @@ object Modifier {
     case "invisible"            => Invisible
     case "evaluated"            => Evaluated
     case DecorateP(decoration)  => Decorate(decoration)
+    case ImportP(srcPath)       => Import(srcPath)
     case "reset"                => Reset
   }
 
